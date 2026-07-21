@@ -1249,12 +1249,11 @@ def produce_block_sparse_q_loads_bwd_sm100_default(
             pipeline_Q.producer_commit(producer_state_Q_LSE)
 
             pipeline_LSE.producer_acquire(producer_state_Q_LSE)
-            with cute.arch.elect_one():
-                copy_stats(
-                    gLSE[None, first_m_block],
-                    sLSE[None, producer_state_Q_LSE.index],
-                    mbar_ptr=pipeline_LSE.producer_get_barrier(producer_state_Q_LSE),
-                )
+            copy_stats(
+                gLSE[None, first_m_block],
+                sLSE[None, producer_state_Q_LSE.index],
+                mbar_ptr=pipeline_LSE.producer_get_barrier(producer_state_Q_LSE),
+            )
             producer_state_Q_LSE.advance()
 
         if const_expr(should_load_dO):
@@ -1271,12 +1270,11 @@ def produce_block_sparse_q_loads_bwd_sm100_default(
             pipeline_dO.producer_commit(producer_state_dO_dPsum)
 
             pipeline_dPsum.producer_acquire(producer_state_dO_dPsum)
-            with cute.arch.elect_one():
-                copy_stats(
-                    gdPsum[None, first_m_block],
-                    sdPsum[None, producer_state_dO_dPsum.index],
-                    mbar_ptr=pipeline_dPsum.producer_get_barrier(producer_state_dO_dPsum),
-                )
+            copy_stats(
+                gdPsum[None, first_m_block],
+                sdPsum[None, producer_state_dO_dPsum.index],
+                mbar_ptr=pipeline_dPsum.producer_get_barrier(producer_state_dO_dPsum),
+            )
             producer_state_dO_dPsum.advance()
 
         if const_expr(use_2cta_instrs):
@@ -1313,12 +1311,11 @@ def produce_block_sparse_q_loads_bwd_sm100_default(
                 pipeline_Q.producer_commit(producer_state_Q_LSE)
 
                 pipeline_LSE.producer_acquire(producer_state_Q_LSE)
-                with cute.arch.elect_one():
-                    copy_stats(
-                        gLSE[None, m_block],
-                        sLSE[None, producer_state_Q_LSE.index],
-                        mbar_ptr=pipeline_LSE.producer_get_barrier(producer_state_Q_LSE),
-                    )
+                copy_stats(
+                    gLSE[None, m_block],
+                    sLSE[None, producer_state_Q_LSE.index],
+                    mbar_ptr=pipeline_LSE.producer_get_barrier(producer_state_Q_LSE),
+                )
                 producer_state_Q_LSE.advance()
 
             if const_expr(should_load_dO):
@@ -1332,12 +1329,11 @@ def produce_block_sparse_q_loads_bwd_sm100_default(
                 pipeline_dO.producer_commit(producer_state_dO_dPsum)
 
                 pipeline_dPsum.producer_acquire(producer_state_dO_dPsum)
-                with cute.arch.elect_one():
-                    copy_stats(
-                        gdPsum[None, m_block],
-                        sdPsum[None, producer_state_dO_dPsum.index],
-                        mbar_ptr=pipeline_dPsum.producer_get_barrier(producer_state_dO_dPsum),
-                    )
+                copy_stats(
+                    gdPsum[None, m_block],
+                    sdPsum[None, producer_state_dO_dPsum.index],
+                    mbar_ptr=pipeline_dPsum.producer_get_barrier(producer_state_dO_dPsum),
+                )
                 producer_state_dO_dPsum.advance()
             prev_m_block = m_block
 
@@ -1436,12 +1432,11 @@ def produce_block_sparse_q_loads_bwd_sm100_2cta_hdim192(
 
         # LSE
         pipeline_LSE.producer_acquire(producer_state_LSE)
-        with cute.arch.elect_one():
-            copy_stats(
-                gLSE[None, first_m_block],
-                sLSE[None, producer_state_LSE.index],
-                mbar_ptr=pipeline_LSE.producer_get_barrier(producer_state_LSE),
-            )
+        copy_stats(
+            gLSE[None, first_m_block],
+            sLSE[None, producer_state_LSE.index],
+            mbar_ptr=pipeline_LSE.producer_get_barrier(producer_state_LSE),
+        )
         producer_state_LSE.advance()
 
         # dOt + V, for dP.T = V @ dO.T
@@ -1456,12 +1451,11 @@ def produce_block_sparse_q_loads_bwd_sm100_2cta_hdim192(
 
         # dPsum
         pipeline_dPsum.producer_acquire(producer_state_dPsum)
-        with cute.arch.elect_one():
-            copy_stats(
-                gdPsum[None, first_m_block],
-                sdPsum[None, producer_state_dPsum.index],
-                mbar_ptr=pipeline_dPsum.producer_get_barrier(producer_state_dPsum),
-            )
+        copy_stats(
+            gdPsum[None, first_m_block],
+            sdPsum[None, producer_state_dPsum.index],
+            mbar_ptr=pipeline_dPsum.producer_get_barrier(producer_state_dPsum),
+        )
         producer_state_dPsum.advance()
 
         # Qt, for dK = dS.T @ Q
@@ -1496,12 +1490,11 @@ def produce_block_sparse_q_loads_bwd_sm100_2cta_hdim192(
 
             # LSE
             pipeline_LSE.producer_acquire(producer_state_LSE)
-            with cute.arch.elect_one():
-                copy_stats(
-                    gLSE[None, m_block],
-                    sLSE[None, producer_state_LSE.index],
-                    mbar_ptr=pipeline_LSE.producer_get_barrier(producer_state_LSE),
-                )
+            copy_stats(
+                gLSE[None, m_block],
+                sLSE[None, producer_state_LSE.index],
+                mbar_ptr=pipeline_LSE.producer_get_barrier(producer_state_LSE),
+            )
             producer_state_LSE.advance()
 
             # Q
@@ -1512,12 +1505,11 @@ def produce_block_sparse_q_loads_bwd_sm100_2cta_hdim192(
 
             # dPsum
             pipeline_dPsum.producer_acquire(producer_state_dPsum)
-            with cute.arch.elect_one():
-                copy_stats(
-                    gdPsum[None, m_block],
-                    sdPsum[None, producer_state_dPsum.index],
-                    mbar_ptr=pipeline_dPsum.producer_get_barrier(producer_state_dPsum),
-                )
+            copy_stats(
+                gdPsum[None, m_block],
+                sdPsum[None, producer_state_dPsum.index],
+                mbar_ptr=pipeline_dPsum.producer_get_barrier(producer_state_dPsum),
+            )
             producer_state_dPsum.advance()
 
             # dOt, for dP.T = V @ dO.T
